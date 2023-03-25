@@ -9,7 +9,7 @@ require("dotenv").config();
 const userRouter = express.Router();
 
 userRouter.post("/register", registerValidator, async (req, res) => {
-  const { name, email, password,batch} = req.body;
+  const { name, email, password, batch } = req.body;
 
   try {
     const user = await Usermodel.find({ email });
@@ -19,26 +19,25 @@ userRouter.post("/register", registerValidator, async (req, res) => {
         if (err) {
           console.log(err);
         } else {
-          let x=email.split("@");
-        if(x[1]==="masaischool.com"){
-        const user = new Usermodel({
-         admin:true,
-          name,  
-          email,
-          password: password,
-        });
-        await user.save();
-      }
-        else{
-          const user = new Usermodel({
-            admin:false,
-             name,  
-             email,
-             password: password,
-             batch
-           });
-           await user.save();
-        }
+          let x = email.split("@");
+          if (x[1] === "masaischool.com") {
+            const user = new Usermodel({
+              admin: true,
+              name,
+              email,
+              password: password,
+            });
+            await user.save();
+          } else {
+            const user = new Usermodel({
+              admin: false,
+              name,
+              email,
+              password: password,
+              batch,
+            });
+            await user.save();
+          }
           res.status(201).send("Registration Successful");
         }
       });
@@ -61,13 +60,11 @@ userRouter.post("/login", loginValidator, async (req, res) => {
       var token = jwt.sign({ userID: user[0]._id }, process.env.key, {
         expiresIn: "24h",
       });
-      
-      
+
       res.status(200).send({
         msg: "LogIn successfully",
         token: token,
-       user:user[0]
-        
+        user: user[0],
       });
     }
   } catch (error) {
@@ -75,6 +72,5 @@ userRouter.post("/login", loginValidator, async (req, res) => {
     console.log(error);
   }
 });
-
 
 module.exports = { userRouter };
