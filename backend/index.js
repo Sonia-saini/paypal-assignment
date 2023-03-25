@@ -6,6 +6,7 @@ const cors=require("cors");
 const { connection } = require("./src/config/db");
 const { userRouter } = require("./src/user/Userroute");
 const { sprintRouter } = require("./src/sprintplan/SprintRoute");
+const { taskRouter } = require("./src/task/Taskroute");
 app.use(cors());
 app.use(express.json());
 app.get("/",(req,res)=>{
@@ -13,6 +14,7 @@ app.get("/",(req,res)=>{
 })
 app.use("/",userRouter)
 app.use("/",sprintRouter)
+app.use("/",taskRouter)
 app.listen(process.env.PORT, async () => {
     try {
       await connection;
@@ -22,3 +24,12 @@ app.listen(process.env.PORT, async () => {
     }
     console.log(`server is running on port ${process.env.PORT}`);
   });
+  // {
+  //   "type":"Bug",
+  //  "assignee":"soni",
+  //  "status":"todo",
+  //  "task":"resolve bug",
+  //  "sprint":"sprint1",
+  //  "batch":"web-19"
+    
+  // }
