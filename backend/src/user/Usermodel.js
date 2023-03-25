@@ -3,7 +3,8 @@ const userschema = mongoose.Schema({
   name: String,
   email: String,
   password: String,
-  admin:Boolean
+  admin:Boolean,
+  batch:String
 });
 const Usermodel = mongoose.model("user", userschema);
 module.exports = { Usermodel };
